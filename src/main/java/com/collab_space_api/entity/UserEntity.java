@@ -2,9 +2,10 @@ package com.collab_space_api.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Entity
-@Table(name = "users")
+@Document(collection = "users")
 @AllArgsConstructor
 public class UserEntity {
     @Id
