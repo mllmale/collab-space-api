@@ -17,6 +17,6 @@ public class TeamEntity {
     @Id
     private String id;
     private String name;
-    private String owner_id; // User ID of the owner
+    private String ownerId; // User ID of the owner
     private String crateAt; // Timestamp of when the team was created
 }
