@@ -37,7 +37,7 @@ public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler 
 
         // Usar uma URL configurável
         String redirectUrl = environment.getProperty("oauth.success.redirect.url");
-        // Considerar usar um método mais seguro para transmitir o token
+        // Considerar usar um metodo mais seguro para transmitir o token
         response.addHeader("Authorization", "Bearer " + token);
         response.sendRedirect(redirectUrl);
     }
