@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Project {
+public class ProjectEntity {
 
     public enum Status {
         ACTIVE,

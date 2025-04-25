@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "notifications")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Notification {
+public class NotificationEntity {
     @Id
     private String id;
     private String userId; // User ID of the recipient

@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "tasks")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Task {
+public class TaskEntity {
 
     public enum Status {
         TODO,
