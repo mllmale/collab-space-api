@@ -1,12 +1,10 @@
 package com.collab_space_api.entity;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
 @Document(collection = "messages")
 @AllArgsConstructor
 @NoArgsConstructor

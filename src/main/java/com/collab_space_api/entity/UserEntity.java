@@ -2,11 +2,12 @@ package com.collab_space_api.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
 @Document(collection = "users")
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +33,4 @@ public class UserEntity {
 
     @Column(nullable = false)
     private String createdAt; // Timestamp of when the user was created
-
-    public UserEntity() {
-
-    }
 }
