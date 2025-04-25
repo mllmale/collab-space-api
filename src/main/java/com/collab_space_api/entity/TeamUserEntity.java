@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class TeamUserEntity {
 
-    private enum Role {
+    public enum Role {
         ADMIN,
         MEMBER,
         GUEST
@@ -18,8 +18,8 @@ public class TeamUserEntity {
 
     @Id
     private String id;
-    private String team_id; // Team ID
-    private String user_id; // User ID
+    private String teamId; // Team ID
+    private String userId; // User ID
     private Role role; // "admin", "member", etc.
 
 }

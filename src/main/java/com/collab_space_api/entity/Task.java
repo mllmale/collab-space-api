@@ -10,12 +10,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 public class Task {
 
-    private enum Status {
+    public enum Status {
         TODO,
         DOING,
         DONE
     }
-    private enum Priority {
+    public enum Priority {
         LOW,
         MEDIUM,
         HIGH
