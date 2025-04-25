@@ -1,36 +1,60 @@
 package com.collab_space_api.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+
 @Document(collection = "users")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserEntity {
+
+    public enum Provider {
+        GOOGLE, GITHUB, LOCAL
+    }
+
+    public enum Role {
+        USER, ADMIN, MODERATOR
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotBlank
     private String name;
 
-    @Column(unique = true, nullable = false)
+    @Email
+    @Column(unique = true)
+    @NotBlank
     private String email;
 
-    @Column(nullable = false)
-    private String password_hash; // Hashed password
+    @NotBlank
+    private String passwordHash;
 
-    @Column(nullable = false)
-    private String provider; // "google", "github", etc.
+    @Enumerated(EnumType.STRING)
+    @NotBlank
+    private Provider provider;
 
-    @Column(nullable = false)
-    private String providerId; // ID from the OAuth provider
+    @NotBlank
+    private String providerId;
 
-    @Column(nullable = false)
-    private String role; // "user", "admin", etc.
+    @Enumerated(EnumType.STRING)
+    @NotBlank
+    private Role role;
 
-    @Column(nullable = false)
-    private String createdAt; // Timestamp of when the user was created
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
 }
+

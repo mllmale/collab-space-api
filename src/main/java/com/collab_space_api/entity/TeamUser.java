@@ -9,10 +9,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "team_users")
 @NoArgsConstructor
 public class TeamUser {
+
+    private enum Role {
+        ADMIN,
+        MEMBER,
+        GUEST
+    }
+
     @Id
     private String id;
     private String team_id; // Team ID
     private String user_id; // User ID
-    private String role; // "admin", "member", etc.
+    private Role role; // "admin", "member", etc.
 
 }

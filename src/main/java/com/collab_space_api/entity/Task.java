@@ -9,12 +9,24 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Task {
+
+    private enum Status {
+        TODO,
+        DOING,
+        DONE
+    }
+    private enum Priority {
+        LOW,
+        MEDIUM,
+        HIGH
+    }
+    // Task ID
     @Id
     private String id;
     private String name; // Task name
     private String description; // Task description
-    private String status; // TODO, DOING, DONE
-    private String priority; // LOW, MEDIUM, HIGH
+    private Status status; // TODO, DOING, DONE
+    private Priority priority; // LOW, MEDIUM, HIGH
     private String deadline; // Deadline for the task
     private String projectId;
     private String assignedTo; // User ID of the assignee

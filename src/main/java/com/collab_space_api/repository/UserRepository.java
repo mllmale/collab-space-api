@@ -3,6 +3,7 @@ package com.collab_space_api.repository;
 import com.collab_space_api.entity.UserEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends MongoRepository<UserEntity, String> {
@@ -11,4 +12,8 @@ public interface UserRepository extends MongoRepository<UserEntity, String> {
     UserEntity findByUsername(String username);
 
     Optional<UserEntity> findById(String id);
+
+    List<UserEntity> findAllByOrderByCreatedAtDesc();
+    @Override
+    List<UserEntity> findAll();
 }
