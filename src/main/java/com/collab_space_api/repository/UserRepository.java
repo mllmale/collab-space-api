@@ -1,19 +1,30 @@
 package com.collab_space_api.repository;
 
 import com.collab_space_api.entity.UserEntity;
+import org.apache.catalina.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+
+@Repository
 public interface UserRepository extends MongoRepository<UserEntity, String> {
-    // Custom query methods can be defined here if needed
-    UserEntity findByEmail(String email);
-    UserEntity findByUsername(String username);
 
-    Optional<UserEntity> findById(String id);
+    Optional<UserEntity> findByEmail(String email);
 
-    List<UserEntity> findAllByOrderByCreatedAtDesc();
+    Optional<UserEntity> findByUsername(String username);
+
+    @Query(sort = "{ createdAt: -1 }")
+    List<UserEntity> findAllOrderedByCreationDateDesc();
+
     @Override
     List<UserEntity> findAll();
+
+    List<UserEntity> findByProvider(String provider);
+
+    @Query("{ 'provider': ?0, 'role': ?1 }")
+    List<UserEntity> findByProviderAndRole(String provider, String role);
 }
