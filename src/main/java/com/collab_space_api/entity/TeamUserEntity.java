@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @Document(collection = "team_users")
 @NoArgsConstructor
-public class TeamUser {
+public class TeamUserEntity {
 
     private enum Role {
         ADMIN,

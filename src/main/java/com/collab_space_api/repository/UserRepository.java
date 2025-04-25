@@ -1,7 +1,6 @@
 package com.collab_space_api.repository;
 
 import com.collab_space_api.entity.UserEntity;
-import org.apache.catalina.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
