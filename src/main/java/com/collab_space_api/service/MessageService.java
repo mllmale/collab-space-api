@@ -1,75 +1,84 @@
 package com.collab_space_api.service;
 
+import com.collab_space_api.dto.MessageRequestDTO;
+import com.collab_space_api.dto.MessageResponseDTO;
 import com.collab_space_api.entity.MessageEntity;
 import com.collab_space_api.repository.MessageRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class MessageService {
-     private final MessageRepository messageRepository;
+    private static final String MESSAGE_NOT_FOUND = "Mensagem não encontrada";
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    
+    private final MessageRepository messageRepository;
 
-     // CREATE
-     public MessageEntity createMessage(MessageEntity message) {
-         return messageRepository.save(message);
-     }
-
-     // READ - buscar por ID
-     public MessageEntity getById(String id) {
-         return messageRepository.findById(id)
-                 .orElseThrow(() -> new RuntimeException("Mensagem não encontrada"));
-     }
-
-     // READ - buscar todas de um usuário
-     public List<MessageEntity> getByUserId(String senderId) {
-         return messageRepository.findBySenderId(senderId);
-     }
-    // READ - buscar todas de um projeto
-    public List<MessageEntity> getByProjectId(String projectId) {
-        return messageRepository.findByProjectId(projectId);
-    }
-    // READ - buscar todas de um time
-    public List<MessageEntity> getByTeamId(String teamId) {
-        return messageRepository.findByTeamId(teamId);
+    public MessageResponseDTO createMessage(MessageRequestDTO request) {
+        MessageEntity entity = toEntity(request);
+        entity.setSentAt(LocalDateTime.now().format(DATE_FORMATTER));
+        return toResponseDTO(messageRepository.save(entity));
     }
 
-     // UPDATE
-     public MessageEntity updateMessage(MessageEntity message) {
-         return messageRepository.save(message);
-     }
+    public MessageResponseDTO getById(String id) {
+        return toResponseDTO(findMessageOrThrow(id));
+    }
 
-     // DELETE
-     public void deleteById(String id) {
-         messageRepository.deleteById(id);
-     }
+    public List<MessageResponseDTO> getByUserId(String senderId) {
+        return messageRepository.findBySenderId(senderId).stream()
+                .map(this::toResponseDTO)
+                .toList();
+    }
 
-     public List<MessageEntity> getBySenderIdAndProjectId(String senderId, String projectId) {
-         return messageRepository.findBySenderIdAndProjectId(senderId, projectId);
-     }
+    public MessageResponseDTO updateMessage(String id, MessageRequestDTO request) {
+        MessageEntity entity = findMessageOrThrow(id);
+        updateEntityFromRequest(entity, request);
+        return toResponseDTO(messageRepository.save(entity));
+    }
 
-     public List<MessageEntity> getBySenderIdAndTeamId(String senderId, String teamId) {
-         return messageRepository.findBySenderIdAndTeamId(senderId, teamId);
-     }
+    public void deleteById(String id) {
+        messageRepository.deleteById(id);
+    }
 
-     public List<MessageEntity> getBySenderIdAndContent(String senderId, String content) {
-         return messageRepository.findBySenderIdAndContent(senderId, content);
-     }
+    private MessageEntity findMessageOrThrow(String id) {
+        return messageRepository.findById(id)
+                .orElseThrow(() -> new MessageNotFoundException(MESSAGE_NOT_FOUND));
+    }
 
-     public List<MessageEntity> getBySenderIdAndSentAt(String senderId, String sentAt) {
-         return messageRepository.findBySenderIdAndSentAt(senderId, sentAt);
-     }
+    private MessageEntity toEntity(MessageRequestDTO request) {
+        MessageEntity entity = new MessageEntity();
+        updateEntityFromRequest(entity, request);
+        return entity;
+    }
 
-     public List<MessageEntity> getByProjectIdAndTeamId(String projectId, String teamId) {
-         return messageRepository.findByProjectIdAndTeamId(projectId, teamId);
-     }
+    private void updateEntityFromRequest(MessageEntity entity, MessageRequestDTO request) {
+        entity.setContent(request.getContent());
+        entity.setProjectId(request.getProjectId());
+        entity.setTeamId(request.getTeamId());
+        entity.setSenderId(request.getSenderId());
+    }
 
-     public List<MessageEntity> getByProjectIdAndContent(String projectId, String content) {
-         return messageRepository.findByProjectIdAndContent(projectId, content);
-     }
+    private MessageResponseDTO toResponseDTO(MessageEntity entity) {
+        return new MessageResponseDTO(
+                entity.getId(),
+                entity.getSenderId(),
+                entity.getContent(),
+                entity.getTeamId(),
+                entity.getProjectId(),
+                entity.getSentAt()
+        );
+    }
 
+    public static class MessageNotFoundException extends RuntimeException {
+        public MessageNotFoundException(String message) {
+            super(message);
+        }
+    }
 }
