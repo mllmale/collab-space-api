@@ -2,6 +2,7 @@ package com.collab_space_api.service;
 
 import com.collab_space_api.entity.NotificationEntity;
 import com.collab_space_api.repository.NotificationRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;

@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MessageRepository extends MongoRepository<MessageEntity, String> {
@@ -19,5 +20,4 @@ public interface MessageRepository extends MongoRepository<MessageEntity, String
     List<MessageEntity> findBySenderIdAndSentAt(String senderId, String sentAt);
     List<MessageEntity> findByProjectIdAndTeamId(String projectId, String teamId);
     List<MessageEntity> findByProjectIdAndContent(String projectId, String content);
-
 }
