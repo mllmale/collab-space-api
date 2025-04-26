@@ -1,12 +1,13 @@
 package com.collab_space_api.repository;
 
 import com.collab_space_api.entity.TaskEntity;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface TaskRepository {
+public interface TaskRepository extends MongoRepository<TaskEntity, String> {
     List<TaskEntity> findByProjectId(String projectId);
     List<TaskEntity> findByAssignedTo(String assignedTo);
     List<TaskEntity> findByStatus(TaskEntity.Status status);

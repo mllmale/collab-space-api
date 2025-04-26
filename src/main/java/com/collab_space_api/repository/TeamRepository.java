@@ -1,14 +1,14 @@
 package com.collab_space_api.repository;
 
 import com.collab_space_api.entity.TeamEntity;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface TeamRepository {
+public interface TeamRepository extends MongoRepository<TeamEntity, String> {
     List<TeamEntity> findByName(String name);
     List<TeamEntity> findByOwnerId(String ownerId);
     List<TeamEntity> findByCrateAt(String crateAt);
-    List<TeamEntity> findById(String id);
 }

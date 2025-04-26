@@ -1,12 +1,13 @@
 package com.collab_space_api.repository;
 
 import com.collab_space_api.entity.MessageEntity;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface MessageRepository {
+public interface MessageRepository extends MongoRepository<MessageEntity, String> {
     List<MessageEntity> findByProjectId(String projectId);
     List<MessageEntity> findByTeamId(String teamId);
     List<MessageEntity> findBySenderId(String senderId);
