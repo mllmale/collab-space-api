@@ -5,10 +5,11 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TeamRepository extends MongoRepository<TeamEntity, String> {
     List<TeamEntity> findByName(String name);
     List<TeamEntity> findByOwnerId(String ownerId);
-    List<TeamEntity> findByCrateAt(String crateAt);
+    Optional<TeamEntity> findByCreatedAt(String createdAt);
 }

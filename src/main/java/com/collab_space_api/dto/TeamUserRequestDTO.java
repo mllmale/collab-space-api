@@ -1,9 +1,13 @@
 package com.collab_space_api.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TeamUserRequestDTO {
 
     @NotBlank(message = "O ID do time é obrigatório.")
