@@ -3,6 +3,7 @@ package com.collab_space_api.service;
 import com.collab_space_api.dto.MessageRequestDTO;
 import com.collab_space_api.dto.MessageResponseDTO;
 import com.collab_space_api.entity.MessageEntity;
+import com.collab_space_api.exception.MessageNotFoundException;
 import com.collab_space_api.mapper.MessageMapper;
 import com.collab_space_api.repository.MessageRepository;
 import jakarta.transaction.Transactional;
@@ -17,15 +18,21 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class MessageService {
-    private static final String MESSAGE_NOT_FOUND = "Mensagem não encontrada";
+    private static final String MESSAGE_NOT_FOUND = "Mensagem não encontrada com ID: ";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     
     private final MessageRepository messageRepository;
     private final MessageMapper messageMapper;
 
     public MessageResponseDTO createMessage(MessageRequestDTO request) {
-        MessageEntity entity = toEntity(request);
-        entity.setSentAt(LocalDateTime.now().format(DATE_FORMATTER));
+        MessageEntity entity = MessageEntity.builder()
+                .content(request.getContent())
+                .projectId(request.getProjectId())
+                .teamId(request.getTeamId())
+                .senderId(request.getSenderId())
+                .sentAt(formatCurrentDateTime())
+                .build();
+                
         return messageMapper.ToResponseDTO(messageRepository.save(entity));
     }
 
@@ -51,13 +58,7 @@ public class MessageService {
 
     private MessageEntity findMessageOrThrow(String id) {
         return messageRepository.findById(id)
-                .orElseThrow(() -> new MessageNotFoundException(MESSAGE_NOT_FOUND));
-    }
-
-    private MessageEntity toEntity(MessageRequestDTO request) {
-        MessageEntity entity = new MessageEntity();
-        updateEntityFromRequest(entity, request);
-        return entity;
+                .orElseThrow(() -> new MessageNotFoundException(MESSAGE_NOT_FOUND + id));
     }
 
     private void updateEntityFromRequest(MessageEntity entity, MessageRequestDTO request) {
@@ -67,9 +68,7 @@ public class MessageService {
         entity.setSenderId(request.getSenderId());
     }
 
-    public static class MessageNotFoundException extends RuntimeException {
-        public MessageNotFoundException(String message) {
-            super(message);
-        }
+    private String formatCurrentDateTime() {
+        return LocalDateTime.now().format(DATE_FORMATTER);
     }
 }
