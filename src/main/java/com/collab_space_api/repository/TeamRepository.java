@@ -4,6 +4,7 @@ import com.collab_space_api.entity.TeamEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,5 +12,5 @@ import java.util.Optional;
 public interface TeamRepository extends MongoRepository<TeamEntity, String> {
     List<TeamEntity> findByName(String name);
     List<TeamEntity> findByOwnerId(String ownerId);
-    Optional<TeamEntity> findByCreatedAt(String createdAt);
+    Optional<TeamEntity> findByCreatedAt(LocalDateTime createdAt);
 }

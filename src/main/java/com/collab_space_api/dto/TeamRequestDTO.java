@@ -3,6 +3,8 @@ package com.collab_space_api.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class TeamRequestDTO {
 
@@ -12,5 +14,5 @@ public class TeamRequestDTO {
     @NotBlank(message = "O ID do proprietário é obrigatório.")
     private String ownerId;
 
-    private String createdAt;
+    private LocalDateTime createdAt;
 }

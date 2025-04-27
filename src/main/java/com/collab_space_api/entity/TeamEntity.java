@@ -5,6 +5,8 @@ import jakarta.persistence.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @Document(collection = "teams")
 @Data
@@ -18,5 +20,5 @@ public class TeamEntity {
     private String id;
     private String name;
     private String ownerId; // User ID of the owner
-    private String createdAt; // Timestamp of when the team was created
+    private LocalDateTime createdAt; // Timestamp of when the team was created
 }
