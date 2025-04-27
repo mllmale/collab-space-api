@@ -14,10 +14,10 @@ public interface UserRepository extends MongoRepository<UserEntity, String> {
 
     Optional<UserEntity> findByEmail(String email);
 
-    Optional<UserEntity> findByUsername(String username);
+    Optional<UserEntity> findByName(String username);
 
     @Query(sort = "{ createdAt: -1 }")
-    List<UserEntity> findAllOrderedByCreationDateDesc();
+    List<UserEntity> findAllOrderedBycreatedAt();
 
     @Override
     List<UserEntity> findAll();
@@ -26,4 +26,5 @@ public interface UserRepository extends MongoRepository<UserEntity, String> {
 
     @Query("{ 'provider': ?0, 'role': ?1 }")
     List<UserEntity> findByProviderAndRole(String provider, String role);
+
 }

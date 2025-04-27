@@ -3,11 +3,13 @@ package com.collab_space_api.entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "projects")
 @Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProjectEntity {

@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.*;
 
 @AllArgsConstructor
-@Document(collection = "usuarios")
+@Document(collection = "teams")
 @Data
 @NoArgsConstructor
 @Builder

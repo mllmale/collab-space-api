@@ -3,6 +3,7 @@ package com.collab_space_api.service;
 import com.collab_space_api.dto.MessageRequestDTO;
 import com.collab_space_api.dto.MessageResponseDTO;
 import com.collab_space_api.entity.MessageEntity;
+import com.collab_space_api.mapper.MessageMapper;
 import com.collab_space_api.repository.MessageRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,27 +21,28 @@ public class MessageService {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     
     private final MessageRepository messageRepository;
+    private final MessageMapper messageMapper;
 
     public MessageResponseDTO createMessage(MessageRequestDTO request) {
         MessageEntity entity = toEntity(request);
         entity.setSentAt(LocalDateTime.now().format(DATE_FORMATTER));
-        return toResponseDTO(messageRepository.save(entity));
+        return messageMapper.ToResponseDTO(messageRepository.save(entity));
     }
 
     public MessageResponseDTO getById(String id) {
-        return toResponseDTO(findMessageOrThrow(id));
+        return messageMapper.ToResponseDTO(findMessageOrThrow(id));
     }
 
     public List<MessageResponseDTO> getByUserId(String senderId) {
         return messageRepository.findBySenderId(senderId).stream()
-                .map(this::toResponseDTO)
+                .map(messageMapper::ToResponseDTO)
                 .toList();
     }
 
     public MessageResponseDTO updateMessage(String id, MessageRequestDTO request) {
         MessageEntity entity = findMessageOrThrow(id);
         updateEntityFromRequest(entity, request);
-        return toResponseDTO(messageRepository.save(entity));
+        return messageMapper.ToResponseDTO(messageRepository.save(entity));
     }
 
     public void deleteById(String id) {
@@ -63,17 +65,6 @@ public class MessageService {
         entity.setProjectId(request.getProjectId());
         entity.setTeamId(request.getTeamId());
         entity.setSenderId(request.getSenderId());
-    }
-
-    private MessageResponseDTO toResponseDTO(MessageEntity entity) {
-        return new MessageResponseDTO(
-                entity.getId(),
-                entity.getSenderId(),
-                entity.getContent(),
-                entity.getTeamId(),
-                entity.getProjectId(),
-                entity.getSentAt()
-        );
     }
 
     public static class MessageNotFoundException extends RuntimeException {
