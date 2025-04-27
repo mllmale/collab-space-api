@@ -1,5 +1,7 @@
 package com.collab_space_api.mapper;
 
+import com.collab_space_api.dto.TeamRequestDTO;
+import com.collab_space_api.dto.TeamResponseDTO;
 import com.collab_space_api.entity.TeamEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -7,7 +9,9 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class TeamMapper {
-    public TeamEntity toEntity(TeamEntity request) {
+
+    // Converte um DTO de criação para uma entidade
+    public TeamEntity toEntity(TeamRequestDTO request) {
         if (request == null) {
             return null;
         }
@@ -16,27 +20,31 @@ public class TeamMapper {
         return entity;
     }
 
-    public void updateEntityFromRequest(TeamEntity entity, TeamEntity request) {
+    // Atualiza a entidade a partir de um DTO
+    public void updateEntityFromRequest(TeamEntity entity, TeamRequestDTO request) {
         if (entity == null || request == null) {
             return;
         }
 
         entity.setName(request.getName());
         entity.setOwnerId(request.getOwnerId());
-        entity.setCrateAt(request.getCrateAt());
+        entity.setCreatedAt(request.getCreatedAt());  // Corrigido para setCreatedAt
     }
 
-    public TeamEntity toResponseDTO(TeamEntity entity) {
+    // Converte uma entidade para um DTO de resposta
+    public TeamResponseDTO toResponseDTO(TeamEntity entity) {
         if (entity == null) {
             return null;
         }
-        TeamEntity response = new TeamEntity();
+        TeamResponseDTO response = new TeamResponseDTO();
         response.setName(entity.getName());
         response.setOwnerId(entity.getOwnerId());
-        response.setCrateAt(entity.getCrateAt());
+        response.setCreatedAt(entity.getCreatedAt());  // Corrigido para setCreatedAt
         return response;
     }
-    public void updateEntity(TeamEntity entity, TeamEntity request) {
+
+    // Atualiza a entidade com valores do DTO
+    public void updateEntity(TeamEntity entity, TeamRequestDTO request) {
         updateEntityFromRequest(entity, request);
     }
 }

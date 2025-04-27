@@ -11,4 +11,6 @@ public class TeamRequestDTO {
 
     @NotBlank(message = "O ID do proprietário é obrigatório.")
     private String ownerId;
+
+    private String createdAt;
 }
