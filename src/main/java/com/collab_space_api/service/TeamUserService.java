@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +32,7 @@ public class TeamUserService {
         return teamUserMapper.toResponseDTO(findTeamUserOrThrow(id));
     }
 
-    public TeamUserResponseDTO updateTeamUser(String id, TeamUserResponseDTO request) {
+    public TeamUserResponseDTO updateTeamUser(String id, @Valid TeamUserRequestDTO request) {
         TeamUserEntity entity = findTeamUserOrThrow(id);
         teamUserMapper.updateEntity(entity, request); // Atualiza com dados do DTO
         return teamUserMapper.toResponseDTO(teamUserRepository.save(entity));

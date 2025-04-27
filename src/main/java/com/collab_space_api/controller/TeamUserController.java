@@ -42,7 +42,7 @@ public class TeamUserController {
 
     // Método para atualizar um TeamUser
     @PutMapping("/{id}")
-    public ResponseEntity<TeamUserResponseDTO> updateTeamUser(@PathVariable String id, @Valid @RequestBody TeamUserResponseDTO request) {
+    public ResponseEntity<TeamUserResponseDTO> updateTeamUser(@PathVariable String id, @Valid @RequestBody TeamUserRequestDTO request) {
         TeamUserResponseDTO updatedTeamUser = teamUserService.updateTeamUser(id, request);
         return ResponseEntity.ok(updatedTeamUser); // Retorna HTTP 200 OK
     }
@@ -50,7 +50,7 @@ public class TeamUserController {
     // Método para buscar todos os TeamUsers de um time específico
     @GetMapping("/team/{teamId}")
     public ResponseEntity<List<TeamUserResponseDTO>> getTeamUsersByTeamId(@PathVariable String teamId) {
-        List<TeamUserResponseDTO> teamUsers = teamUserService.getTeamUsersByTeamId(teamId);
+        List<TeamUserResponseDTO> teamUsers = (List<TeamUserResponseDTO>) teamUserService.getTeamUsersByTeamId(teamId);
         return ResponseEntity.ok(teamUsers);
     }
 }

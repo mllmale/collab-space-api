@@ -6,6 +6,8 @@ import com.collab_space_api.entity.TeamUserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import javax.validation.Valid;
+
 @Component
 @RequiredArgsConstructor
 public class TeamUserMapper {
@@ -44,7 +46,7 @@ public class TeamUserMapper {
     }
 
     // Atualiza a entidade com dados do DTO
-    public void updateEntity(TeamUserEntity entity, TeamUserResponseDTO request) {
+    public void updateEntity(TeamUserEntity entity, @Valid TeamUserRequestDTO request) {
         updateEntityFromRequest(entity, request);
     }
 }

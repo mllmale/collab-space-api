@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TeamUserResponseDTO {
-    private String id;
     private String teamId;
     private String userId;
     private String role;
