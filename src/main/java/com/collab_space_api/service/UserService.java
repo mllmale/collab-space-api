@@ -9,6 +9,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -53,5 +55,11 @@ public class UserService {
     private UserEntity findUserOrThrow(String id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND + id));
+    }
+
+    public List<UserRequestDTO> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(userMapper::toResponseDTO)
+                .toList();
     }
 }
