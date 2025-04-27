@@ -44,7 +44,7 @@ public class TeamUserMapper {
     }
 
     // Atualiza a entidade com dados do DTO
-    public void updateEntity(TeamUserEntity entity, TeamUserRequestDTO request) {
+    public void updateEntity(TeamUserEntity entity, TeamUserResponseDTO request) {
         updateEntityFromRequest(entity, request);
     }
 }

@@ -10,6 +10,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -28,7 +31,7 @@ public class TeamUserService {
         return teamUserMapper.toResponseDTO(findTeamUserOrThrow(id));
     }
 
-    public TeamUserResponseDTO updateTeamUser(String id, TeamUserRequestDTO request) {
+    public TeamUserResponseDTO updateTeamUser(String id, TeamUserResponseDTO request) {
         TeamUserEntity entity = findTeamUserOrThrow(id);
         teamUserMapper.updateEntity(entity, request); // Atualiza com dados do DTO
         return teamUserMapper.toResponseDTO(teamUserRepository.save(entity));
@@ -39,8 +42,26 @@ public class TeamUserService {
         teamUserRepository.deleteById(id);
     }
 
+    public TeamUserResponseDTO getTeamUserById(String id) {
+        return teamUserMapper.toResponseDTO(findTeamUserOrThrow(id));
+    }
+
     private TeamUserEntity findTeamUserOrThrow(String id) {
         return teamUserRepository.findById(id)
                 .orElseThrow(() -> new TeamUserNotFoundException(TEAM_USER_NOT_FOUND + id));
+    }
+
+    public List<TeamUserResponseDTO> findAllByTeamId(String teamId) {
+        List<TeamUserEntity> teamUsers = teamUserRepository.findAllByTeamId(teamId);
+        return teamUsers.stream()
+                .map(teamUserMapper::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<TeamUserResponseDTO> getTeamUsersByTeamId(String teamId) {
+        List<TeamUserEntity> teamUsers = teamUserRepository.findAllByTeamId(teamId);
+        return teamUsers.stream()
+                .map(teamUserMapper::toResponseDTO)
+                .collect(Collectors.toList());
     }
 }

@@ -25,4 +25,6 @@ public interface TeamUserRepository extends MongoRepository<TeamUserEntity, Stri
     // Consultas por role
     @Query("{'role': ?0}")
     List<TeamUserEntity> findByRole(TeamUserEntity.Role role);
+
+    List <TeamUserEntity> findAllByTeamId(String teamId);
 }
